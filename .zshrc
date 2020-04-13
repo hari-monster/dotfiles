@@ -6,8 +6,8 @@
 # 環境変数
 export LANG=ja_JP.UTF-8
 
-# ruby
-export PATH="$HOME/.rbenv/bin:$PATH"
+#ruby
+export PATH="$HOME/.rbenv/bin:$PATH" 
 eval "$(rbenv init - zsh)"
 
 # python
@@ -135,7 +135,8 @@ setopt extended_glob
 # ^R で履歴検索をするときに * でワイルドカードを使用出来るようにする
 bindkey '^R' history-incremental-pattern-search-backward
 
-# Aliases --------------------------------------------------------------------------------------
+########################################
+# エイリアス
 
 alias la='ls -a'
 alias ll='ls -l'
@@ -145,18 +146,59 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias p='pbcopy'
 alias pp='pbpaste'
-
 alias mkdir='mkdir -p'
 
 # Git
-alias gc='git checkout'
-alias gp='git pull'
+alias g='git'
+alias ga='git add'
+alias gd='git diff'
+alias gs='git status'
+alias gp='git push'
+alias gb='git branch'
+alias gst='git status'
+alias gco='git checkout'
+alias gcob=‘git checkout -b’
+alias gf='git fetch'
+alias gc='git commit'
+alias gri='git rebase -i'
+alias gr='git rebase'
+alias gst='git stash'
+alias gsl='git stash list'
+alias gsu='git stash -u'
+alias gsp='git stash pop'
+# Push all changes to current branch
+gcom () {
+    git add . && git status
+    echo "Type commit comment" && read comment;
+    git commit -m ${comment} && git push origin HEAD
+}
+
+mygcre () {
+    git init && git add . && git status && git commit -m "First commit"
+    echo "Type repository name: " && read name;
+    echo "Type repository description: " && read description;
+    curl -u YOURID:YOURPASSWORD https://api.github.com/user/repos -d '{"name":"'"${name}"'","description":"'"${description}"'","private":true}'
+    git remote add origin https://github.com/deatiger/${name}.git
+    git checkout -b develop;
+    git push -u origin develop;
+}
 
 # Docker
-alias dc='docker compose'
-alias dcu='docker compose up -d'
-alias dcp='docker compose ps'
+alias dc='docker-compose'
+alias dcu='docker-compose up -d'
+alias dcp='docker-compose ps'
 
+# Firebase aliases
+alias fl="firebase login"
+alias fi="firebase init"
+alias fs="sudo firebase serve"
+alias fd="firebase deploy"
+alias fdf="firebase deploy --only functions"
+
+
+# 編集系
+alias zshrcv='vi ~/.zshrc'
+alias zshrcs='source ~/.zshrc'
 
 # sudo の後のコマンドでエイリアスを有効にする
 alias sudo='sudo '
